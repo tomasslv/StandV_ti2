@@ -9,6 +9,10 @@ namespace StandV_ti2.Models
 {
     public class Reparacoes
     {
+        public Reparacoes()
+        {
+            FuncionariosEnvolvidosNaReparacao = new HashSet<Funcionarios>();
+        }
 
         /// <summary>
         /// Identificador da Reparação
@@ -19,15 +23,14 @@ namespace StandV_ti2.Models
         //###########################################################################
 
         /// <summary>
-        /// FK para o identificador do Funcionario que vai fazer a reparação
+        /// lista de funcionário que participam na reparação de uma viatura
         /// </summary>
-        [ForeignKey(nameof(Funcionario))]
-        public int IdFuncionario { get; set; }
-        public Funcionarios Funcionario { get; set; }
+        public ICollection<Funcionarios> FuncionariosEnvolvidosNaReparacao { get; set; }
 
         /// <summary>
         /// Identificador do Veiculo que vai ser reparado
         /// </summary>
+        [Display(Name = "Veículo")]
         [ForeignKey(nameof(Veiculo))]
         public int IdVeiculo { get; set; }
         public Veiculos Veiculo { get; set; }
@@ -44,23 +47,24 @@ namespace StandV_ti2.Models
         /// <summary>
         /// Tipo de Avaria
         /// </summary>
+        [Display(Name = "Reparação")]
         public string TipoAvaria { get; set; }
 
         /// <summary>
         /// Data da Reparação
         /// </summary>
-        [Display(Name = "Data da Reparação")]
+        [Display(Name = "Data de pedido de reparação")]
         public DateTime DataRepar { get; set; }
 
         /// <summary>
         /// Peças para Reparação
         /// </summary>
-        [StringLength(20, ErrorMessage = "Não pode ter mais de 20 caracteres.")]
-        [Display(Name = "Peças")]
-        public string Pecas { get; set; }
+        [StringLength(200, ErrorMessage = "Não pode ter mais de 200 caracteres.")]
+        [Display(Name = "Descrição")]
+        public string Descricao { get; set; }
 
         /// <summary>
-        /// Estado da Reparação ("Em reparação" ou "Concluido")
+        /// Estado da Reparação ("Em reparação" ou "Concluído")
         /// </summary>
         [Display(Name = "Estado")]
         public string Estado { get; set; }

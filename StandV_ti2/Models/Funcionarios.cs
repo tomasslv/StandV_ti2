@@ -8,6 +8,10 @@ namespace StandV_ti2.Models
 {
     public class Funcionarios
     {
+        public Funcionarios()
+        {
+            ListaReparacoes = new HashSet<Reparacoes>();
+        }
 
         /// <summary>
         /// Identificador do Funcionario
@@ -55,12 +59,15 @@ namespace StandV_ti2.Models
         public string Email { get; set; }
 
         /// <summary>
-        /// NIF do Funcionario
+        /// Nome do ficheiro com a fotografia do Funcionário
         /// </summary>
-        [StringLength(8, ErrorMessage = "O número deve conter 8 caracteres.")]
-        [RegularExpression("([0-9]{8})", ErrorMessage = "Escreva, por favor, um NIF válido.")]
-        [Display(Name = "NIF")]
-        public string NIF { get; set; }
+        public string Fotografia { get; set; }
 
+        /// <summary>
+        /// Cargo do Funcionário
+        /// </summary>
+        public string Cargo { get; set; }
+
+        public ICollection<Reparacoes> ListaReparacoes { get; set; }
     }
 }

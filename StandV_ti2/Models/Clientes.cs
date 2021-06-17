@@ -8,6 +8,11 @@ namespace StandV_ti2.Models
 {
     public class Clientes
     {
+        public Clientes()
+        {
+            ListaVeiculos = new HashSet<Veiculos>();
+        }
+
 
         /// <summary>
         /// Identificador do Cliente
@@ -58,7 +63,7 @@ namespace StandV_ti2.Models
         /// Numero de cartão de cidadão do Funcionario
         /// </summary>
         [StringLength(8, ErrorMessage = "O número deve conter 8 caracteres.")]
-        [RegularExpression("([0-9]{8})", ErrorMessage = "Escreva, por favor, um nº de cartão de cidadão válido.")]
+        [RegularExpression("[1-9][0-9]{8}", ErrorMessage = "Escreva, por favor, um nº de cartão de cidadão válido.")]
         [Display(Name = "Cartão de Cidadão")]
         public string NIF { get; set; }
 
@@ -68,6 +73,6 @@ namespace StandV_ti2.Models
         [Display(Name = "Data de Nascimento")]
         public DateTime DataNasc { get; set; }
 
-
+        public ICollection<Veiculos> ListaVeiculos { get; set; }
     }
 }

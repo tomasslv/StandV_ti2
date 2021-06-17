@@ -8,6 +8,10 @@ namespace StandV_ti2.Models
 {
     public class Gestores
     {
+        public Gestores()
+        {
+            ListaReparacoes = new HashSet<Reparacoes>();
+        }
 
         /// <summary>
         /// Identificador do Gestor
@@ -54,13 +58,7 @@ namespace StandV_ti2.Models
                            ErrorMessage = "Só são aceites emails da google.")]
         public string Email { get; set; }
 
-        /// <summary>
-        /// NIF do Gestor
-        /// </summary>
-        [StringLength(8, ErrorMessage = "O número deve conter 8 caracteres.")]
-        [RegularExpression("([0-9]{8})", ErrorMessage = "Escreva, por favor, um NIF válido.")]
-        [Display(Name = "NIF")]
-        public string NIF { get; set; }
+        public ICollection<Reparacoes> ListaReparacoes { get; set; }
 
     }
 }

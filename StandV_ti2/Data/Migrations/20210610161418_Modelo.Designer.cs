@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StandV_ti2.Data;
 
 namespace StandV_ti2.Data.Migrations
 {
     [DbContext(typeof(ReparacaoDB))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210610161418_Modelo")]
+    partial class Modelo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -473,13 +475,13 @@ namespace StandV_ti2.Data.Migrations
                     b.HasOne("StandV_ti2.Models.Funcionarios", null)
                         .WithMany()
                         .HasForeignKey("FuncionariosEnvolvidosNaReparacaoIdFuncionario")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("StandV_ti2.Models.Reparacoes", null)
                         .WithMany()
                         .HasForeignKey("ListaReparacoesIdReparacao")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

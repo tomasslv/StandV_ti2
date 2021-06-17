@@ -4,17 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Lista de Reparações</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Criar Pedido de Reparação</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Funcionario)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Veiculo)
             </th>
@@ -28,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.DataRepar)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Pecas)
+                @Html.DisplayNameFor(model => model.Descricao)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Estado)
@@ -39,9 +36,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Funcionario.CodPostal)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Veiculo.Marca)
             </td>
@@ -55,13 +49,12 @@
                 @Html.DisplayFor(modelItem => item.DataRepar)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Pecas)
+                @Html.DisplayFor(modelItem => item.Descricao)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdReparacao">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IdReparacao">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.IdReparacao">Delete</a>
             </td>

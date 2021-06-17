@@ -22,7 +22,7 @@ namespace StandV_ti2.Controllers
         // GET: Reparacoes
         public async Task<IActionResult> Index()
         {
-            var reparacaoDB = _context.Reparacoes.Include(r => r.Funcionario).Include(r => r.Gestor).Include(r => r.Veiculo);
+            var reparacaoDB = _context.Reparacoes.Include(r => r.Gestor).Include(r => r.Veiculo);
             return View(await reparacaoDB.ToListAsync());
         }
 
@@ -35,7 +35,6 @@ namespace StandV_ti2.Controllers
             }
 
             var reparacoes = await _context.Reparacoes
-                .Include(r => r.Funcionario)
                 .Include(r => r.Gestor)
                 .Include(r => r.Veiculo)
                 .FirstOrDefaultAsync(m => m.IdReparacao == id);
@@ -50,7 +49,6 @@ namespace StandV_ti2.Controllers
         // GET: Reparacoes/Create
         public IActionResult Create()
         {
-            ViewData["IdFuncionario"] = new SelectList(_context.Funcionarios, "IdFuncionario", "CodPostal");
             ViewData["IdGestor"] = new SelectList(_context.Gestores, "IdGestor", "CodPostal");
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "IdVeiculo", "Marca");
             return View();
@@ -61,7 +59,7 @@ namespace StandV_ti2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReparacao,IdFuncionario,IdVeiculo,IdGestor,TipoAvaria,DataRepar,Pecas,Estado")] Reparacoes reparacoes)
+        public async Task<IActionResult> Create([Bind("IdReparacao,IdVeiculo,IdGestor,TipoAvaria,DataRepar,Descricao,Estado")] Reparacoes reparacoes)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +67,6 @@ namespace StandV_ti2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdFuncionario"] = new SelectList(_context.Funcionarios, "IdFuncionario", "CodPostal", reparacoes.IdFuncionario);
             ViewData["IdGestor"] = new SelectList(_context.Gestores, "IdGestor", "CodPostal", reparacoes.IdGestor);
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "IdVeiculo", "Marca", reparacoes.IdVeiculo);
             return View(reparacoes);
@@ -88,7 +85,6 @@ namespace StandV_ti2.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdFuncionario"] = new SelectList(_context.Funcionarios, "IdFuncionario", "CodPostal", reparacoes.IdFuncionario);
             ViewData["IdGestor"] = new SelectList(_context.Gestores, "IdGestor", "CodPostal", reparacoes.IdGestor);
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "IdVeiculo", "Marca", reparacoes.IdVeiculo);
             return View(reparacoes);
@@ -99,7 +95,7 @@ namespace StandV_ti2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReparacao,IdFuncionario,IdVeiculo,IdGestor,TipoAvaria,DataRepar,Pecas,Estado")] Reparacoes reparacoes)
+        public async Task<IActionResult> Edit(int id, [Bind("IdReparacao,IdVeiculo,IdGestor,TipoAvaria,DataRepar,Descricao,Estado")] Reparacoes reparacoes)
         {
             if (id != reparacoes.IdReparacao)
             {
@@ -126,7 +122,6 @@ namespace StandV_ti2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdFuncionario"] = new SelectList(_context.Funcionarios, "IdFuncionario", "CodPostal", reparacoes.IdFuncionario);
             ViewData["IdGestor"] = new SelectList(_context.Gestores, "IdGestor", "CodPostal", reparacoes.IdGestor);
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "IdVeiculo", "Marca", reparacoes.IdVeiculo);
             return View(reparacoes);
@@ -141,7 +136,6 @@ namespace StandV_ti2.Controllers
             }
 
             var reparacoes = await _context.Reparacoes
-                .Include(r => r.Funcionario)
                 .Include(r => r.Gestor)
                 .Include(r => r.Veiculo)
                 .FirstOrDefaultAsync(m => m.IdReparacao == id);

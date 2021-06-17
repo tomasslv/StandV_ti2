@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StandV_ti2.Models;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace StandV_ti2.Data
@@ -18,13 +19,17 @@ namespace StandV_ti2.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
+            base.OnModelCreating(modelBuilder);
 
             // insert DB seed
 
-
+            modelBuilder.Entity<Funcionarios>().HasData(
+               new Funcionarios { IdFuncionario = 1, Nome = "João Pedro Silva", CodPostal = "2300-675", Email = "joaopedro@gmail.com", Morada = "Rua Capelo e Ivens, Santarém", Telemovel = "915453329", Fotografia = "func02.jpg", Cargo = "Mecânico" },
+               new Funcionarios { IdFuncionario = 2, Nome = "André Costa", CodPostal = "2070-116", Email = "andrecos@gmail.com", Morada = "Rua Serpa Pinto, Cartaxo", Telemovel = "917549939", Fotografia = "func03.png", Cargo = "Pintor" },
+               new Funcionarios { IdFuncionario = 3, Nome = "Alberto Santos", CodPostal = "2543-322", Email = "albertosantos@gmail.com", Morada = "Rua João César Monteiro, Lisboa", Telemovel = "925142348", Fotografia = "func01.png", Cargo = "Bate-chapas" }
+            );
 
         }
 
@@ -33,10 +38,9 @@ namespace StandV_ti2.Data
         public DbSet<Clientes> Clientes { get; set; }
         public DbSet<Gestores> Gestores { get; set; }
         public DbSet<Reparacoes> Reparacoes { get; set; }
-        public DbSet<ReparFunc> ReparFunc { get; set; }
         public DbSet<Veiculos> Veiculos { get; set; }
-        public DbSet<Fotos> Fotos { get; set; }
 
 
     }
 }
+
