@@ -36,7 +36,7 @@ namespace StandV_ti2.Models
         public Veiculos Veiculo { get; set; }
 
         /// <summary>
-        /// FK para o identificador do Gestor
+        /// FK para o identificador do Cliente
         /// </summary>
         [ForeignKey(nameof(Gestor))]
         public int IdGestor { get; set; }

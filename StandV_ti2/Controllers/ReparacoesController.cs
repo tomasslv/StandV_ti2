@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,24 @@ namespace StandV_ti2.Controllers
 {
     public class ReparacoesController : Controller
     {
+        /// <summary>
+        /// este atributo representa a base de dados do projeto
+        /// </summary>
         private readonly ReparacaoDB _context;
 
-        public ReparacoesController(ReparacaoDB context)
+        /// <summary>
+        /// este atributo representa a base de dados do projeto
+        /// </summary>
+        public ReparacoesController(ReparacaoDB context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        /// <summary>
+        /// esta variável recolhe os dados da pessoa q se autenticou
+        /// </summary>
+        private readonly UserManager<ApplicationUser> _userManager;
 
         // GET: Reparacoes
         public async Task<IActionResult> Index()
@@ -50,7 +63,6 @@ namespace StandV_ti2.Controllers
         // GET: Reparacoes/Create
         public IActionResult Create()
         {
-            ViewData["IdGestor"] = new SelectList(_context.Gestores, "IdGestor", "CodPostal");
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "IdVeiculo", "Marca");
             return View();
         }
@@ -60,15 +72,20 @@ namespace StandV_ti2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdReparacao,IdVeiculo,IdGestor,TipoAvaria,DataRepar,Descricao,Estado")] Reparacoes reparacoes)
+        public async Task<IActionResult> Create([Bind("IdReparacao,IdVeiculo,TipoAvaria,DataRepar,Descricao,Estado")] Reparacoes reparacoes)
         {
             if (ModelState.IsValid)
             {
+
+                // obter os veículos registados
+                //Veiculos veiculo = _context.Veiculos.Where(v => v.IdVeiculo == _context.Veiculos).FirstOrDefault();
+                // adicionar o veículo à reparação
+                //reparacoes.Veiculo = veiculo;
+
                 _context.Add(reparacoes);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdGestor"] = new SelectList(_context.Gestores, "IdGestor", "CodPostal", reparacoes.IdGestor);
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "IdVeiculo", "Marca", reparacoes.IdVeiculo);
             return View(reparacoes);
         }
@@ -86,10 +103,7 @@ namespace StandV_ti2.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdGestor"] = new SelectList(_context.Gestores, "IdGestor", "CodPostal", reparacoes.IdGestor);
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "IdVeiculo", "Marca", reparacoes.IdVeiculo);
-            return View(reparacoes);
-
             return View(reparacoes);
         }
 
@@ -98,7 +112,7 @@ namespace StandV_ti2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReparacao,IdVeiculo,IdGestor,TipoAvaria,DataRepar,Descricao,Estado")] Reparacoes reparacoes)
+        public async Task<IActionResult> Edit(int id, [Bind("IdReparacao,IdVeiculo,TipoAvaria,DataRepar,Descricao,Estado")] Reparacoes reparacoes)
         {
             if (id != reparacoes.IdReparacao)
             {
@@ -125,7 +139,6 @@ namespace StandV_ti2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdGestor"] = new SelectList(_context.Gestores, "IdGestor", "CodPostal", reparacoes.IdGestor);
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "IdVeiculo", "Marca", reparacoes.IdVeiculo);
             return View(reparacoes);
         }

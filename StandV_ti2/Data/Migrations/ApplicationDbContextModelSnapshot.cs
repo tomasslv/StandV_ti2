@@ -262,6 +262,7 @@ namespace StandV_ti2.Data.Migrations
                         .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("NIF")
+                        .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("nvarchar(8)");
 
@@ -410,7 +411,10 @@ namespace StandV_ti2.Data.Migrations
                     b.Property<string>("Estado")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdGestor")
+                    b.Property<int?>("GestoresIdGestor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdCliente")
                         .HasColumnType("int");
 
                     b.Property<int>("IdVeiculo")
@@ -421,7 +425,9 @@ namespace StandV_ti2.Data.Migrations
 
                     b.HasKey("IdReparacao");
 
-                    b.HasIndex("IdGestor");
+                    b.HasIndex("GestoresIdGestor");
+
+                    b.HasIndex("IdCliente");
 
                     b.HasIndex("IdVeiculo");
 
@@ -542,9 +548,13 @@ namespace StandV_ti2.Data.Migrations
 
             modelBuilder.Entity("StandV_ti2.Models.Reparacoes", b =>
                 {
-                    b.HasOne("StandV_ti2.Models.Gestores", "Gestor")
+                    b.HasOne("StandV_ti2.Models.Gestores", null)
                         .WithMany("ListaReparacoes")
-                        .HasForeignKey("IdGestor")
+                        .HasForeignKey("GestoresIdGestor");
+
+                    b.HasOne("StandV_ti2.Models.Clientes", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("IdCliente")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -554,7 +564,7 @@ namespace StandV_ti2.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Gestor");
+                    b.Navigation("Cliente");
 
                     b.Navigation("Veiculo");
                 });

@@ -41,7 +41,7 @@ namespace StandV_ti2.Models
         /// <summary>
         /// Tipo de combustivel do Veículo
         /// </summary>
-        [Display(Name = "Combustivel")]
+        [Display(Name = "Combustível")]
         public string Combustivel { get; set; }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace StandV_ti2.Models
         /// <summary>
         /// Potencia do Veículo
         /// </summary>
-        [Display(Name = "Potencia")]
+        [Display(Name = "Potência")]
         public string Potencia { get; set; }
 
         /// <summary>

@@ -86,16 +86,20 @@ namespace StandV_ti2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdVeiculo,Marca,Modelo,AnoVeiculo,Combustivel,Matricula,Potencia,Cilindrada,Km,TipoConducao,IdCliente")] Veiculos veiculos)
+        public async Task<IActionResult> Create([Bind("Marca,Modelo,AnoVeiculo,Combustivel,Matricula,Potencia,Cilindrada,Km,TipoConducao")] Veiculos veiculo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(veiculos);
+                // obter os dados da pessoa autenticada
+                Clientes cliente = _context.Clientes.Where(c => c.UserName == _userManager.GetUserId(User)).FirstOrDefault();
+                // adicionar o cliente ao veículo
+                veiculo.Cliente = cliente;
+
+                _context.Add(veiculo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "Nome", veiculos.IdCliente);
-            return View(veiculos);
+            return View(veiculo);
         }
 
         // GET: Veiculos/Edit/5
