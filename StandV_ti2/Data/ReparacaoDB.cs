@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StandV_ti2.Models;
 using System;
@@ -8,11 +9,34 @@ using System.Text;
 
 namespace StandV_ti2.Data
 {
+    /// <summary>
+    /// classe para recolher os dados particulares dos Utilizadores
+    /// vamos deixar de usar o 'IdentityUser' e começar a usar este
+    /// A adição desta classe implica:
+    ///    - mudar a classe de criação da Base de Dados
+    ///    - mudar no ficheiro 'startup.cs' a referência ao tipo do utilizador
+    ///    - mudar em todos os ficheiros do projeto a referência a 'IdentityUser' 
+    ///           para 'ApplicationUser'
+    /// </summary>
+    public class ApplicationUser : IdentityUser
+    {
+
+        /// <summary>
+        /// recolhe a data de registo de um utilizador
+        /// </summary>
+        public DateTime DataRegisto { get; set; }
+
+        // /// <summary>
+        // /// se fizerem isto, estão a adicionar todos os atributos do 'Cliente'
+        // /// à tabela de autenticação
+        // /// </summary>
+        // public Clientes Cliente { get; set; }
+    }
 
     /// <summary>
     /// esta classe representa a Base de Dados a ser utilizada neste projeto
     /// </summary>
-    public class ReparacaoDB : IdentityDbContext
+    public class ReparacaoDB : IdentityDbContext<ApplicationUser>
     {
         public ReparacaoDB(DbContextOptions<ReparacaoDB> options)
             : base(options)

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +13,26 @@ using StandV_ti2.Models;
 
 namespace StandV_ti2.Controllers
 {
+    [Authorize] // esta 'anotação' garante que só as pessoas autenticadas têm acesso aos recursos
     public class VeiculosController : Controller
     {
+        /// <summary>
+        /// este atributo representa a base de dados do projeto
+        /// </summary>
         private readonly ReparacaoDB _context;
 
-        public VeiculosController(ReparacaoDB context)
+        /// <summary>
+        /// esta variável recolhe os dados da pessoa q se autenticou
+        /// </summary>
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        /// <summary>
+        /// este atributo representa a base de dados do projeto
+        /// </summary>
+        public VeiculosController(ReparacaoDB context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Veiculos
@@ -31,17 +47,30 @@ namespace StandV_ti2.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                // entro aqui se não foi especificado o ID
+
+                // redirecionar para a página de início
+                return RedirectToAction("Index");
+
+                //return NotFound();
             }
 
+            // se chego aqui, foi especificado um ID
+            // vou procurar se existe um Veículo com esse valor
             var veiculos = await _context.Veiculos
                 .Include(v => v.Cliente)
                 .FirstOrDefaultAsync(m => m.IdVeiculo == id);
             if (veiculos == null)
             {
-                return NotFound();
+                // o ID especificado não corresponde a um veículo
+
+                // return NotFound();
+                // redirecionar para a página de início
+                return RedirectToAction("Index");
             }
 
+            // se cheguei aqui, é pq o veículo existe e foi encontrado
+            // então, mostro-o na View
             return View(veiculos);
         }
 
@@ -65,7 +94,7 @@ namespace StandV_ti2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "CodPostal", veiculos.IdCliente);
+            ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "Nome", veiculos.IdCliente);
             return View(veiculos);
         }
 
@@ -82,7 +111,7 @@ namespace StandV_ti2.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "CodPostal", veiculos.IdCliente);
+            ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "Nome", veiculos.IdCliente);
             return View(veiculos);
         }
 
@@ -96,6 +125,21 @@ namespace StandV_ti2.Controllers
             if (id != veiculos.IdVeiculo)
             {
                 return NotFound();
+            }
+
+            // recuperar o ID do objeto enviado para o browser
+            var numIdVeiculo = HttpContext.Session.GetInt32("NumVeiculoEmEdicao");
+
+            // e compará-lo com o ID recebido
+            // se forem iguais, continuamos
+            // se forem diferentes, não fazemos a alteração
+
+            if (numIdVeiculo == null || numIdVeiculo != veiculos.IdVeiculo)
+            {
+                // se entro aqui, é pq houve problemas
+
+                // redirecionar para a página de início
+                return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
@@ -118,7 +162,7 @@ namespace StandV_ti2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "CodPostal", veiculos.IdCliente);
+            ViewData["IdCliente"] = new SelectList(_context.Clientes, "IdCliente", "Nome", veiculos.IdCliente);
             return View(veiculos);
         }
 

@@ -55,15 +55,16 @@ namespace StandV_ti2.Models
         /// </summary>
         [StringLength(50, ErrorMessage = "O gmail não pode ter mais de 50 caracteres.")]
         [EmailAddress(ErrorMessage = "O email introduzido não é válido.")]
-        [RegularExpression("([a-z]+(([a-z]|[0-9])*)@gmail.com",
+        [RegularExpression("[a-z]+(([a-z]|[0-9])*)@gmail.com",
                            ErrorMessage = "Só são aceites emails da google.")]
         public string Email { get; set; }
 
         /// <summary>
         /// Numero de cartão de cidadão do Funcionario
         /// </summary>
+        [Required(ErrorMessage = "Deve escrever o Número de Identificação Fiscal.")]
         [StringLength(8, ErrorMessage = "O número deve conter 8 caracteres.")]
-        [RegularExpression("[1-9][0-9]{8}", ErrorMessage = "Escreva, por favor, um nº de cartão de cidadão válido.")]
+        [RegularExpression("[1-9]+[0-9]{7}", ErrorMessage = "Escreva, por favor, um nº de cartão de cidadão válido.")]
         [Display(Name = "Cartão de Cidadão")]
         public string NIF { get; set; }
 
@@ -74,5 +75,14 @@ namespace StandV_ti2.Models
         public DateTime DataNasc { get; set; }
 
         public ICollection<Veiculos> ListaVeiculos { get; set; }
+
+        //************************************************************************************
+        /// <summary>
+        /// Funciona como Chave Forasteira no relacionamento entre os Clientes
+        /// e a tabela de autenticação
+        /// </summary>
+        public string UserName { get; set; }
+
+        //************************************************************************************
     }
 }

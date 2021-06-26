@@ -23,7 +23,7 @@ namespace StandV_ti2.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Funcionarios()
         {
             return View();
         }

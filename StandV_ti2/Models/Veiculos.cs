@@ -83,6 +83,8 @@ namespace StandV_ti2.Models
         public int IdCliente { get; set; }
         public Clientes Cliente { get; set; }
 
+        //********************************************************************************
+
         public ICollection<Reparacoes> ListaReparacoes { get; set; }
     }
 }

@@ -70,8 +70,60 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+/***********************************************************************************************************/
 
+.borderdiv {
+    width: 180px;
+    height: 180px;
+    border: 2px dotted #000000;
+    font: bold 24px arial;
+    position: absolute;
+}
 
+.borderdiv2 {
+    width: 180px;
+    height: 180px;
+    font: bold 24px arial;
+    position: absolute;
+}
+
+#imgM {
+    background-color: #4080ff;
+    left: 140px;
+    top: 240px;
+}
+
+#imgP {
+    background-color: #4080ff;
+    left: 340px;
+    top: 240px;
+}
+
+#imgBT {
+    background-color: #4080ff;
+    left: 540px;
+    top: 240px;
+}
+
+#mecanico {
+    left: 140px;
+    top: 440px;
+}
+
+#pintor {
+    left: 340px;
+    top: 440px;
+}
+
+#bc {
+    left: 540px;
+    top: 440px;
+}
+
+#desc{
+    font-family:'Times New Roman';
+    font-size:15px;
+}
 
 /***********************************************************************************************************/
 
